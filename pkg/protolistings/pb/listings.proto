@@ -4,7 +4,7 @@ package listings;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "./pkg/listings/pb";
+option go_package = "./pkg/protolistings/pb/listings";
 
 message Tag {
     string id = 1;

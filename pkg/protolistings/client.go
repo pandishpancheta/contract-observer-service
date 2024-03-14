@@ -1,19 +1,19 @@
-package listings
+package protolistings
 
 import (
 	"log"
 
-	"github.com/pandishpanceta/contract-observer-service/pkg/config"
-	"github.com/pandishpanceta/contract-observer-service/pkg/listings/pb"
+	"github.com/pandishpancheta/contract-observer-service/pkg/config"
+	listings "github.com/pandishpancheta/contract-observer-service/pkg/protolistings/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 type ServiceClient struct {
-	Client pb.ListingsServiceClient
+	Client listings.ListingsServiceClient
 }
 
-func InitServiceClient(cfg *config.Config) (pb.ListingsServiceClient, error) {
+func InitServiceClient(cfg *config.Config) (listings.ListingsServiceClient, error) {
 	creds := insecure.NewCredentials()
 
 	c, err := grpc.Dial(cfg.ListingsServiceClient, grpc.WithTransportCredentials(creds))
@@ -22,5 +22,5 @@ func InitServiceClient(cfg *config.Config) (pb.ListingsServiceClient, error) {
 		return nil, err
 	}
 
-	return pb.NewListingsServiceClient(c), nil
+	return listings.NewListingsServiceClient(c), nil
 }

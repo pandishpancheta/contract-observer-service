@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.3
-// source: pkg/listings/pb/listings.proto
+// source: pkg/protolistings/pb/listings.proto
 
-package pb
+package listings
 
 import (
 	context "context"
@@ -280,5 +280,5 @@ var ListingsService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pkg/listings/pb/listings.proto",
+	Metadata: "pkg/protolistings/pb/listings.proto",
 }
