@@ -13,6 +13,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/gofrs/uuid/v5"
 	"github.com/pandishpanceta/contract-observer-service/pkg/config"
+	"github.com/pandishpanceta/contract-observer-service/pkg/listings"
+	"github.com/pandishpanceta/contract-observer-service/pkg/listings/pb"
 	"github.com/pandishpanceta/contract-observer-service/pkg/wsclient"
 )
 
@@ -96,6 +98,8 @@ func RunSubscription(cfg *config.Config, contractABIPath string) {
 		return
 	}
 
+	protoClient, err := listings.InitServiceClient(cfg)
+
 	fileBytes, err := os.ReadFile(contractABIPath)
 	if err != nil {
 		log.Fatal(err)
@@ -130,7 +134,10 @@ func RunSubscription(cfg *config.Config, contractABIPath string) {
 					return
 				}
 				log.Println("Item added: ", itemAdded)
-				// TODO: protobuf for confirmation of item
+				protoClient.UpdateListingStatus(context.Background(), &pb.UpdateListingStatusRequest{
+					Id:     itemAdded.ItemId.String(),
+					Status: "confirmed",
+				})
 			case contractAbi.Events["ItemPurchased"].ID.Hex():
 				itemPurchased, err := DecodePurchaseEvent(c, contractAbi, vLog)
 				if err != nil {
