@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/pandishpanceta/contract-observer-service/pkg/config"
+	"github.com/pandishpancheta/contract-observer-service/pkg/config"
 )
 
 func InitWsClient(cfg *config.Config) (*ethclient.Client, error) {

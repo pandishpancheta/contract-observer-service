@@ -1,4 +1,4 @@
-module github.com/pandishpanceta/contract-observer-service
+module github.com/pandishpancheta/contract-observer-service
 
 go 1.22.1
 

@@ -12,10 +12,12 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/gofrs/uuid/v5"
-	"github.com/pandishpanceta/contract-observer-service/pkg/config"
-	"github.com/pandishpanceta/contract-observer-service/pkg/listings"
-	"github.com/pandishpanceta/contract-observer-service/pkg/listings/pb"
-	"github.com/pandishpanceta/contract-observer-service/pkg/wsclient"
+	"github.com/pandishpancheta/contract-observer-service/pkg/config"
+	"github.com/pandishpancheta/contract-observer-service/pkg/protolistings"
+	listings "github.com/pandishpancheta/contract-observer-service/pkg/protolistings/pb"
+	"github.com/pandishpancheta/contract-observer-service/pkg/protoorders"
+	pb "github.com/pandishpancheta/contract-observer-service/pkg/protoorders/pb"
+	"github.com/pandishpancheta/contract-observer-service/pkg/wsclient"
 )
 
 //event ItemAdded(bytes32 itemId, address owner, string token, uint256 priceInWei);
@@ -98,7 +100,13 @@ func RunSubscription(cfg *config.Config, contractABIPath string) {
 		return
 	}
 
-	protoClient, err := listings.InitServiceClient(cfg)
+	listingClient, err := protolistings.InitServiceClient(cfg)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	orderClient, err := protoorders.InitServiceClient(cfg)
 
 	fileBytes, err := os.ReadFile(contractABIPath)
 	if err != nil {
@@ -134,7 +142,7 @@ func RunSubscription(cfg *config.Config, contractABIPath string) {
 					return
 				}
 				log.Println("Item added: ", itemAdded)
-				protoClient.UpdateListingStatus(context.Background(), &pb.UpdateListingStatusRequest{
+				listingClient.UpdateListingStatus(context.Background(), &listings.UpdateListingStatusRequest{
 					Id:     itemAdded.ItemId.String(),
 					Status: "confirmed",
 				})
@@ -145,7 +153,11 @@ func RunSubscription(cfg *config.Config, contractABIPath string) {
 					return
 				}
 				log.Println("Item purchased: ", itemPurchased)
-				// TODO: protobuf for confirmation of purchase
+				orderClient.UpdateStatus(context.Background(), &pb.UpdateStatusRequest{
+					Id:     itemPurchased.OrderId.String(),
+					Status: "confirmed",
+				})
+
 			}
 		}
 	}

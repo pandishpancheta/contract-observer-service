@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/pandishpanceta/contract-observer-service/pkg/config"
-	"github.com/pandishpanceta/contract-observer-service/pkg/events"
+	"github.com/pandishpancheta/contract-observer-service/pkg/config"
+	"github.com/pandishpancheta/contract-observer-service/pkg/events"
 )
 
 func main() {
