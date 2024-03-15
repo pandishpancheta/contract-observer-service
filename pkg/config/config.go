@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 type Config struct {
 	WSUrl                 string
@@ -11,9 +14,9 @@ type Config struct {
 
 func LoadConfig() Config {
 	return Config{
-		WSUrl:                 os.Getenv("WS_URL"),
-		ContractAddress:       os.Getenv("CONTRACT_ADDRESS"),
-		ListingsServiceClient: os.Getenv("LISTINGS_SERVICE_CLIENT"),
-		OrdersServiceClient:   os.Getenv("ORDERS_SERVICE_CLIENT"),
+		WSUrl:                 strings.TrimSpace(os.Getenv("WS_URL")),
+		ContractAddress:       strings.TrimSpace(os.Getenv("CONTRACT_ADDRESS")),
+		ListingsServiceClient: strings.TrimSpace(os.Getenv("LISTINGS_SERVICE_CLIENT")),
+		OrdersServiceClient:   strings.TrimSpace(os.Getenv("ORDERS_SERVICE_CLIENT")),
 	}
 }
