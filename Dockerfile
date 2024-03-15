@@ -26,5 +26,8 @@ WORKDIR /root/
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/main .
 
+# Copy abi.json to ./pkg/events/abi.json
+COPY --from=builder /app/abi.json ./pkg/events/abi.json
+
 # Command to run the executable
 CMD ["./main"] 
