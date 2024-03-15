@@ -16,7 +16,7 @@ type ServiceClient struct {
 func InitServiceClient(cfg *config.Config) (orders.OrderServiceClient, error) {
 	creds := insecure.NewCredentials()
 
-	c, err := grpc.Dial(cfg.ListingsServiceClient, grpc.WithTransportCredentials(creds))
+	c, err := grpc.Dial(cfg.OrdersServiceClient, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("Failed to dial TokenizationService: %v", err)
 		return nil, err
