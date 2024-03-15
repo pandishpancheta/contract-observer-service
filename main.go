@@ -12,5 +12,5 @@ func main() {
 	cfg := config.LoadConfig()
 
 	log.Println("Starting contract observer service...")
-	events.RunSubscription(&cfg, "./pkg/events/abi.json")
+	events.RunSubscription(&cfg, "./abi.json")
 }
